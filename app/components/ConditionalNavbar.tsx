@@ -2,7 +2,6 @@
 import { usePathname } from "next/navigation"; 
 import Image from "next/image";
 import Link from "next/link";
-import NavbarExtras from "./NavbarExtras";
 export default function ConditionalNavbar({children} : {children: React.ReactNode}) {
     const pathname = usePathname();
 

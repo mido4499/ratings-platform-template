@@ -7,7 +7,7 @@ export default function Home() {
   const [search, setSearch] = useState("");
   const router = useRouter();
 
-  function handleSearch(e){
+  function handleSearch(e: React.FormEvent){
     e.preventDefault();
 
     router.push(`/companies?search=${search}`);
