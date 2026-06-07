@@ -1,16 +1,14 @@
 // fetch companies or add a company
 import {prisma} from "@/src/lib/db";
 import { auth } from '@/auth';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { sendAdminNotification } from "@/src/lib/email";
 
 export async function GET(
-    request: Request
+    request: NextRequest
 )
 {
-    const { searchParams } = new URL(request.url);
-
-    const search = searchParams.get("search");
+    const search = request.nextUrl.searchParams.get('search');
 
 
     const companies = await prisma.company.findMany({
