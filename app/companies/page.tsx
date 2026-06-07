@@ -10,7 +10,7 @@ type Company = {
 }
 
 async function getCompanies(search?: string) {
-    const res = await fetch(`http://localhost:3000/api/companies?search=${search}`, {
+    const res = await fetch(`/api/companies?search=${search}`, {
         cache: "no-store",
     })
 

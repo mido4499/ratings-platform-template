@@ -1,7 +1,7 @@
 import EditReviewForm from "@/app/components/EditReviewForm";
 async function getReview(reviewid: string){
     const res = await fetch(
-        `http://localhost:3000/api/reviews/${reviewid}`,
+        `/api/reviews/${reviewid}`,
         {
             cache: "no-store",
         }

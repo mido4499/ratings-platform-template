@@ -3,7 +3,7 @@ import ReviewForm from "@/app/components/ReviewForm";
 
 async function getCompany(slug: string){
     const res = await fetch(
-        `http://localhost:3000/api/companies/${slug}`,
+        `/api/companies/${slug}`,
         {
             cache: "no-store",
         }
