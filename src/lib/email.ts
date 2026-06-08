@@ -38,7 +38,6 @@ export async function sendRejectionEmail(userEmail: string, companyName: string)
         html: `
             <h2>Submission update</h2>
             <p>Unfortunately, your submission for the company <strong>${companyName}</strong> was not approved.</p>
-            <p>If you think this is a mistake, please contact us by replying to this email.</p>
         `
     })
 }
