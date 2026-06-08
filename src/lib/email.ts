@@ -4,7 +4,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function sendAdminNotification(companyName: string, submittedBy: string) {
     await resend.emails.send({
-        from: 'onboarding@resend.dev',
+        from: 'noreply@sisyphusapply.com',
         to: process.env.ADMIN_EMAIL!,
         subject: `New Company Submission: ${companyName}`,
         html: `
@@ -18,7 +18,7 @@ export async function sendAdminNotification(companyName: string, submittedBy: st
 
 export async function sendApprovalEmail(userEmail: string, companyName: string, companySlug: string) {
     await resend.emails.send({
-        from: 'onboarding@resend.dev',
+        from: 'noreply@sisyphusapply.com',
         to: userEmail,
         subject: `Approved Company Submission`,
         html: `
@@ -32,7 +32,7 @@ export async function sendApprovalEmail(userEmail: string, companyName: string, 
 
 export async function sendRejectionEmail(userEmail: string, companyName: string) {
     await resend.emails.send({
-        from: `onboarding@resend.dev`,
+        from: `noreply@sisyphusapply.com`,
         to: userEmail,
         subject: `Your company submission was not approved`,
         html: `
@@ -45,7 +45,7 @@ export async function sendRejectionEmail(userEmail: string, companyName: string)
 
 export async function sendResetPasswordEmail(userEmail: string, token: string) {
     await resend.emails.send({
-        from: `onboarding@resend.dev`,
+        from: `noreply@sisyphusapply.com`,
         to: userEmail,
         subject: `Reset your password`,
         html: `
