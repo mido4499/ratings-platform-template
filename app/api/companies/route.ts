@@ -59,6 +59,16 @@ export async function POST(
 
     const slug = name.toLowerCase().replace(/[^a-z0-9\s-]/g, "").replace(/\s+/g, "-").trim();
 
+    const alreadyExists = await prisma.company.findUnique({
+        where: {
+            slug: slug,
+        }
+    })
+
+    if (alreadyExists) {
+        return Response.json({error: 'This company already exists',}, {status: 409});
+    }
+
     const company = await prisma.company.create({
         data: {
             name: body.name,

@@ -5,9 +5,12 @@ import { useRouter } from "next/navigation";
 export default function AddCompanyForm(){
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
+    const [error, setError] = useState("");
     const router = useRouter();
 
     async function handleSubmit(){
+        setError("");
+
         const res = await fetch(
             `/api/companies`,
             {
@@ -24,6 +27,11 @@ export default function AddCompanyForm(){
             }
         );
         const company = await res.json();
+
+        if (!res.ok) {
+            setError(company.error);
+            return;
+        }
         
 
         router.push(`/companies/${company.slug}`);
@@ -65,6 +73,7 @@ export default function AddCompanyForm(){
             >
                 Add company
             </button>
+            {error && <p className="text-red-500 text-sm">{error}</p>}
             
         </div>
     )
