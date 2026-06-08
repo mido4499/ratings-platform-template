@@ -3,8 +3,9 @@ import { useState } from "react";
 import ReviewInput from "./ReviewInput";
 import RatingInput from "./RatingInput";
 import { useRouter } from "next/navigation";
-import type { Review } from '@/src/lib/types';
+import { Prisma } from "@prisma/client";
 
+type Review = Prisma.ReviewGetPayload<{include: {company: true}}>;
 
 export default function ReviewForm({
     review,
@@ -12,7 +13,7 @@ export default function ReviewForm({
     review: Review;
 }){
     const router = useRouter();
-    const [reviewText, setReviewText] = useState(review.text);
+    const [reviewText, setReviewText] = useState(review.text??'');
     const [rating, setRating] = useState(review.score);
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);

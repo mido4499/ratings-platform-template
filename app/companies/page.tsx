@@ -1,6 +1,8 @@
 // View the list of companies
 import Link from "next/link";
 import CompanyCard from "../components/CompanyCard";
+import { prisma } from "@/src/lib/db";
+
 
 type Company = {
     id: string;
@@ -10,14 +12,38 @@ type Company = {
 }
 
 async function getCompanies(search?: string) {
-    const res = await fetch(`/api/companies?search=${search}`, {
-        cache: "no-store",
-    })
+    const companies = await prisma.company.findMany({
+        where: {
+            name: {
+                contains: search ?? "",
+                mode: "insensitive",
+            },
+            status: 'approved',
+        },
+        include: {
+            reviews: true,
+        },
+    });
 
-    if (!res.ok)
-        throw new Error("Failed to fetch companies.");
+    const companiesWithRatings = companies.map((company) => {
+        const total = company.reviews.reduce(
+            (sum, review) => sum + review.score,
+            0
+        );
 
-    return res.json();
+        const average = 
+            company.reviews.length > 0
+            ?
+            Math.round(total/company.reviews.length *2)/2
+            :0;
+        
+        return {
+            ...company,
+            averageRating: average,
+        };
+    });
+
+    return companiesWithRatings;
 }
 
 export default async function CompaniesPage({
@@ -27,6 +53,8 @@ export default async function CompaniesPage({
 }) {
     const {search} = await searchParams;
     const companies = await getCompanies(search??'');
+
+    
 
     return (
         <main className="min-h-screen h-fit flex justify-center ">

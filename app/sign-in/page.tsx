@@ -49,7 +49,7 @@ export default function SigninPage(){
                     
                 </div>
 
-                <form className="w-1/5 flex flex-col gap-8 items-center">
+                <form className="w-1/5 flex flex-col gap-4 items-center">
                     <input
                         className="w-full h-10 p-4 text-(--slate) rounded-2xl border border-(--earth)"
                         type="email"
@@ -97,9 +97,13 @@ export default function SigninPage(){
                         {loading? 'signing in..': 'Sign in'}
                     </button>
                     <p className="text-sm text-center text-(--clay)">
+                        <Link href={'/forgot-password'}>Forgot your password?</Link>
+                    </p>
+                    <p className="text-sm text-center text-(--clay)">
                         Don&apos;t have an account?{' '}
                         <Link href="/sign-up" className="underline text-(--earth)">Sign up</Link>
                     </p>
+                    
                 </form>
             </div>
 

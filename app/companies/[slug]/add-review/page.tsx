@@ -1,20 +1,8 @@
 // Add a review to a company
 import ReviewForm from "@/app/components/ReviewForm";
+import { prisma } from "@/src/lib/db";
+import { notFound } from "next/navigation";
 
-async function getCompany(slug: string){
-    const res = await fetch(
-        `/api/companies/${slug}`,
-        {
-            cache: "no-store",
-        }
-    );
-
-    if (!res.ok){
-        throw new Error("Failed to fetch company");
-    }
-
-    return res.json();
-}
 
 export default async function AddReview({
     params
@@ -22,8 +10,20 @@ export default async function AddReview({
     params: Promise<{slug: string}>;
 }){
     const { slug } = await params;
-    const company = await getCompany(slug);
+    const company = await prisma.company.findUnique({
+        where: {
+            slug,
+        },
+        include: {
+            reviews: {
+                include: {
+                    user: true,
+                }
+            }
+        }
+    });
 
+    if (!company) notFound();
 
     return(
         <main className="w-full min-h-screen">

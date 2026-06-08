@@ -1,13 +1,9 @@
+import { Prisma } from "@prisma/client";
 
-type Review = {
-    score: number;
-    id: string;
-    text: string;
-    createdAt: string;
-}
+type ReviewWithUser = Prisma.ReviewGetPayload<{include: {user: true}}>;
 
 type ReviewListProps = {
-    reviews: Review[];
+    reviews: ReviewWithUser[];
 }
 
 export default function ReviewsListWithCompany({

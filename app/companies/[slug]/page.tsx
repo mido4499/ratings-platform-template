@@ -5,22 +5,7 @@ import AddRatingCard from "@/app/components/AddRatingCard";
 import Link from "next/link";
 import { auth } from "@/auth";
 import { prisma } from "@/src/lib/db";
-import { redirect } from "next/navigation";
-
-async function getCompany(slug: string){
-    const res = await fetch(
-        `/api/companies/${slug}`,
-        {
-            cache: "no-store",
-        }
-    );
-
-    if (!res.ok){
-        throw new Error("Failed to fetch company");
-    }
-
-    return res.json();
-}
+import { notFound, redirect } from "next/navigation";
 
 export default async function companyPage({
     params
@@ -29,17 +14,44 @@ export default async function companyPage({
 }){
 
     const { slug } = await params;
-    const company = await getCompany(slug);
+    const company = await prisma.company.findUnique({
+        where: {
+            slug,
+        },
+        include: {
+            reviews: {
+                include: {
+                    user: true,
+                }
+            }
+        }
+    });
+
+    if (!company) notFound();
+
+    const total = company.reviews.reduce(
+        (sum, review) => sum + review.score,
+        0
+    );
+
+    const average = company.reviews.length > 0
+    ?
+    Math.round(total/company.reviews.length *2)/2
+    :0;
+
+    const averageRating = average.toFixed(1);
 
     const session = await auth();
+    
     if (company.status !== 'approved') {
-        if (!(session?.user?.id !== company?.userId) && !(session?.user?.email !== process.env.ADMIN_EMAIL)) {
+        if ((session?.user?.id !== company?.userId) && (session?.user?.email !== process.env.ADMIN_EMAIL)) {
             redirect('/companies');
         }
     }
     if (company.status === 'rejected') {
         redirect('/companies');
     }
+
 
     const pending = company.status === 'pending';
 
@@ -51,6 +63,7 @@ export default async function companyPage({
             }
         }
     }) : null;
+
 
 
     return (
@@ -69,7 +82,7 @@ export default async function companyPage({
                 <div className="flex w-3/4">
                     <div className="w-1/2 flex flex-col gap-4">
                         <div className="flex items-baseline">
-                            <span className="text-(--slate) text-6xl p-1"> {company.averageRating}</span>
+                            <span className="text-(--slate) text-6xl p-1"> {averageRating}</span>
                             <span className="text-(--earth) text-2xl">/5.0</span>
                         </div>
                         

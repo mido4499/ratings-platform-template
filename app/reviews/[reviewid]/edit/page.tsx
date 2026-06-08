@@ -1,27 +1,27 @@
+import { prisma } from "@/src/lib/db";
 import EditReviewForm from "@/app/components/EditReviewForm";
-async function getReview(reviewid: string){
-    const res = await fetch(
-        `/api/reviews/${reviewid}`,
-        {
-            cache: "no-store",
-        }
-    );
-
-    if (!res.ok) {
-        throw new Error("Failed to fetch review");
-    }
-
-    return res.json();
-}
+import { notFound } from "next/navigation";
 
 export default async function EditReview({
     params
 }: {
     params: Promise<{reviewid: string}>;
 }){
+    console.log('YOU HAVE LANDED!!!!');
     const { reviewid } = await params;
+    console.log('REVIEW ID---------------->========>>>', reviewid);
 
-    const review = await getReview(reviewid);
+    const review = await prisma.review.findUnique({
+        where: {
+            id: reviewid,
+        },
+        include: {company: true}
+    });
+
+    console.log('REVIEW---------------->========>>>', review);
+
+    if (!review) notFound();
+
     return(
         <main className="w-full min-h-screen">
             <div className="flex flex-col m-8 items-center gap-24">
