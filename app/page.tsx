@@ -24,7 +24,7 @@ export default function Home() {
           loading="eager"
         />
         <h1 className="text-6xl m-auto text-(--clay)">
-          Should <span className="text-(--slate)">Sisphus Apply</span> for..
+          Should <span className="text-(--slate)">Sisyphus Apply</span> for..
         </h1>
         <form onSubmit={handleSearch} className="flex w-3/4 h-15 m-auto gap-2 rounded-2xl bg-(--sand) pt-2 pb-2 pl-2 pr-2">
           <span className="w-2 bg-(--slate)"></span>
