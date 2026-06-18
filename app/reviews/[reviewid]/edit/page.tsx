@@ -5,30 +5,27 @@ import { notFound } from "next/navigation";
 export default async function EditReview({
     params
 }: {
-    params: Promise<{reviewid: string}>;
+    params: Promise<{reviewId: string}>;
 }){
-    console.log('YOU HAVE LANDED!!!!');
-    const { reviewid } = await params;
-    console.log('REVIEW ID---------------->========>>>', reviewid);
+    const { reviewId } = await params;
 
     const review = await prisma.review.findUnique({
         where: {
-            id: reviewid,
+            id: reviewId,
         },
         include: {company: true}
     });
 
-    console.log('REVIEW---------------->========>>>', review);
 
     if (!review) notFound();
 
     return(
         <main className="w-full min-h-screen">
-            <div className="flex flex-col m-8 items-center gap-24">
-                <h1 className="text-6xl w-4/5 text-(--slate)">
+            <div className="flex flex-col m-10 md:m-8 items-center gap-4 md:gap-24">
+                <h1 className="text-3xl md:text-6xl w-full md:w-4/5 text-(--slate)">
                     Edit your review for {review.company.name}
                 </h1>
-                <div className="flex flex-col gap-6 w-4/5">
+                <div className="flex flex-col gap-6 w-full md:w-4/5 ">
                     <EditReviewForm
                         review={review}
                     />

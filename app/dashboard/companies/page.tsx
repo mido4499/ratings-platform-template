@@ -16,7 +16,7 @@ export default async function MyCompaniesPage(){
 
     return (
         <div className='flex flex-col m-6 min-h-screen gap-6'>
-            <h1 className='text-(--slate) text-2xl mb-4'>My Companies</h1>
+            <h1 className='text-(--slate) text-2xl mb-4 font-semibold'>My Companies</h1>
             <CompaniesList companies={companies}/>
             <Link href={`/companies/add-company`} className='text-(--slate) text-2xl rounded-2xl bg-(--sand) p-4 w-fit'>Add Company</Link>
         </div>

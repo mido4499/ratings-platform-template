@@ -8,7 +8,7 @@ export default async function AddRatingCard({
 {
     return(
         <div className="rounded-3xl w-full bg-(--sand) p-6 flex gap-4">
-            <span className="font-bold text-(--slate) text-6xl">
+            <span className="font-bold text-(--slate) text-3xl md:text-6xl">
                 {text}
             </span>
             <Image

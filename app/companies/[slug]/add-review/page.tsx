@@ -27,11 +27,11 @@ export default async function AddReview({
 
     return(
         <main className="w-full min-h-screen">
-            <div className="flex flex-col m-8 items-center gap-24">
-                <h1 className="text-6xl w-4/5">
+            <div className="flex flex-col m-10 md:m-8 items-center gap-4 md:gap-24 mt-6">
+                <h1 className="text-3xl md:text-6xl w-full md:w-4/5 text-(--slate)">
                         Add a Review for {company.name}
                 </h1>
-                <div className="flex flex-col gap-6 w-4/5">
+                <div className="flex flex-col gap-6 w-full md:w-4/5">
                     <ReviewForm
                         slug={slug}
                     />

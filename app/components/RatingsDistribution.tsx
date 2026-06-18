@@ -23,18 +23,18 @@ export default function RatingDistribution({
     });
 
     return(
-        <div className="bg-(--sand) rounded-2xl mr-60 w-full flex flex-col gap-6 p-5">
-            <h1 className="text-(--earth) text-6xl"> Ratings </h1>
+        <div className="bg-(--sand) rounded-2xl md:mr-60 w-full flex flex-col gap-6 p-5">
+            <h1 className="text-(--earth) text-3xl md:text-6xl"> Ratings </h1>
             
             {
                 [5,4,3,2,1].map((score) => {
                     const percentage = reviews.length > 0 ? (distribution[score as keyof typeof distribution]/reviews.length) * 100 : 0;
                     return(
                         <div 
-                            className="text-(--earth) text-4xl flex gap-4 "
+                            className="text-(--earth) text-2xl md:text-4xl flex gap-4 "
                             key={score}>
                             <p>{score}.0</p>
-                            <div className="w-full h-10 border-4 border-(--earth)">
+                            <div className="w-full h-8 md:h-10 border-2 md:border-4 border-(--earth)">
                                 <div
                                     className="h-full bg-(--earth)"    
                                     style={{

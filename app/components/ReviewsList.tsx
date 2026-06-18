@@ -12,7 +12,7 @@ export default function ReviewsListWithCompany({
 
 
     return(
-        <div className="flex flex-col gap-6 w-3/4">
+        <div className="flex flex-col gap-6 w-full md:w-3/4">
         {
             reviews.map((review)=>{
                 const formattedDate = new Date(review.createdAt).toLocaleDateString(

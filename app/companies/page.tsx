@@ -58,9 +58,9 @@ export default async function CompaniesPage({
 
     return (
         <main className="min-h-screen h-fit flex justify-center ">
-            <div className="w-[65%] max-w-5xl p-8 h-full flex flex-col ">
+            <div className="w-full min-h-screen md:w-[65%] max-w-5xl p-8 flex flex-col mt-0">
 
-                <h1 className= "text-6xl">
+                <h1 className= "text-3xl md:text-6xl font-semibold">
                     Companies
                 </h1>
 
@@ -79,7 +79,7 @@ export default async function CompaniesPage({
                     ))}
                 </div>
 
-                <div className="text-center mt-3 text-2xl text-(--slate)">
+                <div className="text-center mt-auto text-2xl text-(--slate)">
                     Can&apos;t find what you&apos;re looking for?
                     <Link href={'/companies/add-company'} className="font-bold"> Add your own company </Link>
                 </div>

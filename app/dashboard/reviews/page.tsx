@@ -14,7 +14,7 @@ export default async function MyReviewsPage(){
 
     return(
         <div className="m-6 min-h-screen">
-            <h1 className="text-(--slate) text-2xl mb-4">My Reviews</h1>
+            <h1 className="text-(--slate) text-2xl mb-4 font-semibold">My Reviews</h1>
             <ReviewsListWithCompany reviews={reviews}/>
         </div>
     )

@@ -67,7 +67,7 @@ export default async function companyPage({
 
 
     return (
-        <main className=" w-full min-h-screen py-8 px-16">
+        <main className=" w-full min-h-screen py-8 px-8 md:px-16">
             {pending && (
                 <div className="flex gap-4 w-full mb-4 justify-center">
                     <div className="flex gap-2 bg-(--sand) w-fit px-1 py-2 rounded-2xl items-baseline">
@@ -78,9 +78,9 @@ export default async function companyPage({
                     </div>
                     
                 </div>)}
-            <div className="flex justify-center">
-                <div className="flex w-3/4">
-                    <div className="w-1/2 flex flex-col gap-4">
+            <div className="flex flex-col md:flex-row justify-center">
+                <div className="flex flex-col md:flex-row w-full md:w-3/4">
+                    <div className="w-full md:w-1/2 flex flex-col gap-4">
                         <div className="flex items-baseline">
                             <span className="text-(--slate) text-6xl p-1"> {averageRating}</span>
                             <span className="text-(--earth) text-2xl">/5.0</span>
@@ -89,6 +89,12 @@ export default async function companyPage({
                         <p className="text-(--slate) text-1xl ">Based on {company.reviews.length} ratings</p>
                         <h1 className="text-6xl ">{company.name}</h1>
                         <p className="text-(--slate) text-2xl ">{company.description}</p>
+
+                        {/** Mobile Rating Distribution */}
+                        <div className="block md:hidden">
+                            <RatingDistribution reviews={company.reviews}/>
+                        </div>
+
                         <div className="w-fit mt-6">
                             {review? (
                                 <Link href={`/reviews/${review.id}/edit`}>
@@ -104,7 +110,7 @@ export default async function companyPage({
                             )}
                         </div>
                     </div>
-                    <div className="ml-auto">
+                    <div className="ml-auto hidden md:block">
                         <RatingDistribution reviews={company.reviews}/>
                     </div>
                     

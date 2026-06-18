@@ -21,7 +21,7 @@ export default function ReviewsList({
     }
     
     return(
-        <div className="flex flex-col gap-6 w-3/4">
+        <div className="flex flex-col gap-6 w-full md:w-3/4">
         {
             reviews.map((review)=>{
                 const formattedDate = new Date(review.createdAt).toLocaleDateString(
@@ -39,22 +39,22 @@ export default function ReviewsList({
                         
                         <div className='flex mb-4'>
                             <h1 className="text-3xl text-(--slate)">{review.company.name}</h1>
-                            <Link href={`/reviews/${review.id}/edit`} className='text-3xl ml-auto'>Edit</Link>
-                            <button className='text-3xl ml-4 cursor-pointer text-red-400' onClick={()=>deleteReview(review.id)}>Delete</button>
+                            <Link href={`/reviews/${review.id}/edit`} className='text-xl md:text-3xl ml-auto'>Edit</Link>
+                            <button className='text-xl md:text-3xl ml-4 cursor-pointer text-red-400' onClick={()=>deleteReview(review.id)}>Delete</button>
                         </div>
                         
 
                         <div className="flex">
-                            <div className="flex text-6xl bg-(--earth) w-fit h-fit text-(--sand) p-6">
+                            <div className="flex text-4xl md:text-6xl bg-(--earth) w-fit h-fit text-(--sand) p-2 md:p-6">
                                 {review.score.toFixed(1)}
                             </div>
-                            <div className="ml-auto text-(--slate) text-2xl">
+                            <div className="ml-auto text-(--slate) text-lg md:text-2xl">
                                 {formattedDate}
                             </div>
                         
                         </div>
                     
-                        <div className="flex p-6 gap-8">
+                        <div className="flex md:p-6 gap-8">
                             <div className="flex flex-col ">
                                 <div className="text-(--slate) text-2xl">{review.text}</div>
                             </div>

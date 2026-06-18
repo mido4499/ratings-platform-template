@@ -24,7 +24,7 @@ export default function RatingInput({
     };
 
     return (
-        <div className="flex gap-24 items-center">
+        <div className="flex gap-4 md:gap-24 items-center">
             <div className="flex gap-0">
                 {[1,2,3,4,5].map((star) => {
                     const filled = (star <= rating) || (star <= hovering);
@@ -45,7 +45,7 @@ export default function RatingInput({
             </div>
             
 
-            <p className="text-2xl text-(--slate)"> {labels[(hovering || rating) as keyof typeof labels]} </p> 
+            <p className="text-l md:text-2xl text-(--slate)"> {labels[(hovering || rating) as keyof typeof labels]} </p> 
 
         </div>
     )

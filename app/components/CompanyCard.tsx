@@ -13,17 +13,17 @@ export default function CompanyCard({
     const halfStar = <Image src="/icons/half_filled_star.svg" alt="filled star" width={48} height={48}/>;
 
     return (
-        <div className="bg-(--sand) rounded-3xl p-10 h-60 flex justify-between">
+        <div className="bg-(--sand) rounded-3xl p-10 h-fit md:h-60 flex flex-col md:flex-row gap-10 md:justify-between">
             <div className="flex flex-col justify-between">
-                <div className="text-(--slate) text-7xl font-light">
+                <div className="text-(--slate) text-4xl md:text-7xl font-light hidden md:block">
                     {rating == 0? "No ratings":rating.toFixed(1)}
                 </div>
-                <div className="text-(--slate) text-4xl font-medium">
+                <div className="text-(--slate) text-3xl md:text-4xl font-medium">
                     {name}
                 </div>
             </div>
 
-            <div className="flex items-end text-purple-400 text-5xl">
+            <div className="flex items-end text-purple-400 text-3xl md:text-5xl">
                 {[1,2,3,4,5].map((score) => {
                     let star;
                     if ((score-rating) == 0.5)

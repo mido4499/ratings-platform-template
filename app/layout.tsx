@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { Lato } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
-import ConditionalNavbar from "./components/ConditionalNavbar";
+import UserMenu from "./components/UserMenu";
+import { SessionProvider } from "next-auth/react";
 
 
 const lato = Lato({
@@ -27,10 +28,13 @@ export default function RootLayout({
         className={`${lato.variable} h-full antialiased`}
       >
         <body className="min-h-full bg-(--stone) flex flex-col font-(--font-lato) text-(--rock)" suppressHydrationWarning>
-          <ConditionalNavbar>
-            <Navbar />
-          </ConditionalNavbar>
-          {children}
+          <SessionProvider>
+            <div className="z-1 relative">
+              <Navbar />
+            </div>
+            {children}
+          </SessionProvider>
+          
         </body>
       </html>
   );

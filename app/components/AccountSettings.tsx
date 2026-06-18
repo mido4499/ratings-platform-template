@@ -1,6 +1,7 @@
 'use client';
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";  
 type Props = {
     name: string;
     email: string;
@@ -14,6 +15,7 @@ export default function AccountSettings({name, email, hasPassword}: Props) {
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
     const router = useRouter();
+    const { update } = useSession();
 
     async function handleSave(){
         setLoading(true);
@@ -40,6 +42,8 @@ export default function AccountSettings({name, email, hasPassword}: Props) {
             return;
         }
 
+        await update({name: nameValue})
+
         setEditing(false);
         setLoading(false);
         router.refresh();
@@ -56,14 +60,6 @@ export default function AccountSettings({name, email, hasPassword}: Props) {
         <div>
             <div className="flex items-center justify-between">
                 <h1 className="text-3xl text-(--slate) font-semibold">Account Settings</h1>
-                {!editing && (
-                    <button
-                        onClick={() => setEditing(true)}
-                        className="cursor-pointer p-2 rounded-xl bg-(--sand) text-xl"
-                    >
-                        Edit
-                    </button>
-                )}
             </div>
             <div className="flex flex-col gap-4 mt-4">
                 <div>
@@ -103,6 +99,14 @@ export default function AccountSettings({name, email, hasPassword}: Props) {
                             <p className="text-lg text-(--slate)">••••••••</p>
                         )}
                     </div>
+                )}
+                {!editing && (
+                    <button
+                        onClick={() => setEditing(true)}
+                        className="cursor-pointer p-2 rounded-xl bg-(--sand) text-xl w-full md:w-fit"
+                    >
+                        Edit
+                    </button>
                 )}
 
                 {error && <p className="text-red-500 text-sm">{error}</p>}
