@@ -90,9 +90,9 @@ export default function UserMenu({name}: Props){
             <div ref={ref} className="relative hidden md:block">
                 <button
                     onClick={()=>setOpen(!open)}
-                    className="text-lg cursor-pointer"
+                    className="text-lg cursor-pointer hover:bg-(--clay) p-2 rounded"
                 >
-                    {name}
+                    {name===''?'Add Your Touch':name}
                 </button>
 
                 {open && (
