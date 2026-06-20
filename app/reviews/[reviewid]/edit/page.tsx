@@ -5,13 +5,13 @@ import { notFound } from "next/navigation";
 export default async function EditReview({
     params
 }: {
-    params: Promise<{reviewId: string}>;
+    params: Promise<{reviewid: string}>;
 }){
-    const { reviewId } = await params;
+    const { reviewid } = await params;
 
     const review = await prisma.review.findUnique({
         where: {
-            id: reviewId,
+            id: reviewid,
         },
         include: {company: true}
     });
