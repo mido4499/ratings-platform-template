@@ -3,7 +3,7 @@ import ReviewForm from "@/app/components/ReviewForm";
 import { prisma } from "@/src/lib/db";
 import { notFound } from "next/navigation";
 
-export async function generateMetaData({params}: {params: Promise<{slug: string}>}) {
+export async function generateMetadata({params}: {params: Promise<{slug: string}>}) {
     const { slug } = await params;
     const company = await prisma.company.findUnique({ where: { slug }} );
 

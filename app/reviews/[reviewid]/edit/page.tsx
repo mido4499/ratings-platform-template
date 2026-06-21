@@ -2,7 +2,7 @@ import { prisma } from "@/src/lib/db";
 import EditReviewForm from "@/app/components/EditReviewForm";
 import { notFound } from "next/navigation";
 
-export async function generateMetaData({ params }: { params: Promise<{reviewid: string}>}) {
+export async function generateMetadata({ params }: { params: Promise<{reviewid: string}>}) {
     const { reviewid } = await params;
 
     const review = await prisma.review.findUnique({

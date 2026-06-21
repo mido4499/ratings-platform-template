@@ -7,7 +7,7 @@ import { auth } from "@/auth";
 import { prisma } from "@/src/lib/db";
 import { notFound, redirect } from "next/navigation";
 
-export async function generateMetaData({params}: {params: Promise<{slug: string}>}) {
+export async function generateMetadata({params}: {params: Promise<{slug: string}>}) {
     const { slug } = await params;
     const company = await prisma.company.findUnique({ where: { slug }} )
 
