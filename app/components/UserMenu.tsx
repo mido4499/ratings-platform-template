@@ -131,7 +131,7 @@ export default function UserMenu({name}: Props){
                             <span className="font-medium">
                                 <Link href="/" className={"font-semibold text-lg"} onClick={()=>{close()}}>
                                     <Image
-                                        src={'/logo3.png'}
+                                        src={'/og-image.png'}
                                         width={100}
                                         height={100}
                                         alt="Home"

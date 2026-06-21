@@ -2,6 +2,22 @@ import { prisma } from "@/src/lib/db";
 import EditReviewForm from "@/app/components/EditReviewForm";
 import { notFound } from "next/navigation";
 
+export async function generateMetaData({ params }: { params: Promise<{reviewid: string}>}) {
+    const { reviewid } = await params;
+
+    const review = await prisma.review.findUnique({
+        where: {
+            id: reviewid,
+        },
+        include: {company: true}
+    });
+
+    return {
+        title: `Be Honest! Edit Review for ${review?.company}`,
+        description: `Honestly Editing the rating and review you added for ${review?.company}.`
+    }
+}
+
 export default async function EditReview({
     params
 }: {

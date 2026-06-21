@@ -7,6 +7,16 @@ import { auth } from "@/auth";
 import { prisma } from "@/src/lib/db";
 import { notFound, redirect } from "next/navigation";
 
+export async function generateMetaData({params}: {params: Promise<{slug: string}>}) {
+    const { slug } = await params;
+    const company = await prisma.company.findUnique({ where: { slug }} )
+
+    return {
+        title: `See reviews for ${company?.name} job applications - Sisyphus Apply`,
+        description: `Read honest reviews from real applicants for jobs in ${company?.name}`,
+    }
+}
+
 export default async function companyPage({
     params
 }: {

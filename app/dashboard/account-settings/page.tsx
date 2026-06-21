@@ -2,6 +2,8 @@ import AccountSettings from "@/app/components/AccountSettings";
 import { auth } from "@/auth";
 import { prisma } from '@/src/lib/db';
 
+export const metadata = {title: 'Manage Account - Sisyphus Apply'}
+
 export default async function AccountPage(){
     const session = await auth();
     if (!session?.user) return null;

@@ -39,6 +39,10 @@ export async function PUT(
     const { reviewId } = await params;
     const body = await request.json();
 
+    if (body.text.length == 0) {
+        return NextResponse.json({error: 'Please add a review describing your experience.'}, {status: 400});
+    }
+
     const filter = new BadWords.Filter();
 
     if (filter.isProfane(body.text)) {

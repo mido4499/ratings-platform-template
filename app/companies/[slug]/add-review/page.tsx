@@ -3,6 +3,15 @@ import ReviewForm from "@/app/components/ReviewForm";
 import { prisma } from "@/src/lib/db";
 import { notFound } from "next/navigation";
 
+export async function generateMetaData({params}: {params: Promise<{slug: string}>}) {
+    const { slug } = await params;
+    const company = await prisma.company.findUnique({ where: { slug }} );
+
+    return {
+        title: `Be honest! Add a review for ${company?.name} - Sisyphus Apply`,
+        description: `Honestly adding a rating and review for the job application experience for ${company?.name}.`
+    }
+}
 
 export default async function AddReview({
     params

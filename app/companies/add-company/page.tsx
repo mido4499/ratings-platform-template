@@ -2,6 +2,11 @@
 import AddCompanyForm from "@/app/components/AddCompanyForm";
 
 
+export const metadata = {
+    title: 'Add Company - Sisyphus Apply',
+    description: 'Add a company that you applied to, to help other applicants rate and review its job applications.',
+}
+
 export default async function AddCompany(){
 
     return (

@@ -68,6 +68,14 @@ export async function POST(
             });
         }
 
+        if (body.score == 0) {
+            return NextResponse.json({error: 'Please add a minimum of a one-star rating.'}, {status: 400});
+        }
+
+        if (body.text.length == 0) {
+            return NextResponse.json({error: 'Please add a review describing your experience.'}, {status: 400});
+        }
+
         const filter = new BadWords.Filter();
 
         if (filter.isProfane(body.text)) {

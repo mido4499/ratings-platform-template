@@ -4,6 +4,8 @@ import Link from 'next/link';
 import CompaniesList from '@/app/components/CompaniesList';
 import { Company } from "@prisma/client";
 
+export const metadata = {title: 'My Companies - Sisyphus Apply'}
+
 export default async function MyCompaniesPage(){
     const session = await auth();
 

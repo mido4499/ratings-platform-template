@@ -21,7 +21,7 @@ export default function Navbar(){
             {isDashboard ? (
                 <Link className="hidden md:block fixed top-0 right-0" href='/'> {/**Return only the photo at the far right of the navbar if dashboard. */}
                     <Image
-                        src='/logo3.png'
+                        src='/og-image.png'
                         width={100}
                         height={100}
                         alt='logo'
@@ -32,7 +32,7 @@ export default function Navbar(){
                     {pathname!=='/' && (
                         <Link href="/" className={'font-semibold text-lg hidden md:block'}>
                             <Image
-                                src={'/logo3.png'}
+                                src={'/og-image.png'}
                                 width={100}
                                 height={100}
                                 alt="Home"
