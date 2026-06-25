@@ -1,6 +1,9 @@
 import SignInForm from "../components/SignInForm";
 
-export const metadata = {title: 'Sisyphus Apply - Sign in'}
+export const metadata = {
+    title: 'Sisyphus Apply - Sign in',
+    description: 'Sign in to review job application experience.'
+}
 
 export default function SigninPage(){
     return(

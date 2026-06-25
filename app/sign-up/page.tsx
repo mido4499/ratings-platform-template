@@ -1,6 +1,9 @@
 import SignUpForm from "../components/SignUpForm";
 
-export const metadata = {title: 'Sisyphus Apply - Sign up'}
+export const metadata = {
+    title: 'Sisyphus Apply - Sign up',
+    description: 'Sign up to review job application experience.'
+}
 
 export default function SignupPage(){
     return (
