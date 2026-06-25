@@ -15,7 +15,7 @@ export default function SearchForm(){
     return(
         <>
             <h1 className="text-3xl md:text-6xl m-auto text-(--clay)">
-                Should <span className="text-(--slate)">Sisyphus Apply</span> for..
+                Should <span className="text-(--slate)">Sisyphus not Apply</span> for..
             </h1>
             <form onSubmit={handleSearch} className="flex w-4/5 md:w-3/4 h-13 md:h-15 m-auto gap-2 rounded-2xl bg-(--sand) pt-2 pb-2 pl-2 pr-2">
                 <span className="w-2 bg-(--slate)"></span>
