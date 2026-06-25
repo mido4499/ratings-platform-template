@@ -13,14 +13,12 @@ const lato = Lato({
 
 export const metadata = {
   title: 'Sisyphus Apply - Job Applications Reviews',
-  description: `Applying for jobs today feels like Sisyphus pushing the rock up the mountain.
-  Stop wasting time applying for fake job postings and find the perfect company to apply for. 
-  Check ratings for different companies based on their application process.`,
+  description: `Speak up to unjustified rejection emails! Rate and review your job application
+  experience.`,
   openGraph: {
     title: 'Sisyphus Apply',
-    description: `Applying for jobs today feels like Sisyphus pushing the rock up the mountain.
-    Stop wasting time applying for fake job postings and find the perfect company to apply for. 
-    Check ratings for different companies based on their application process.`,
+    description: `Speak up to unjustified rejection emails! Rate and review your job application
+    experience..`,
     url: 'https://sisyphusapply.com',
     images: [
       {
