@@ -27,3 +27,5 @@ export default function Home() {
     </main>
   )
 }
+
+// AUTOMATED DEPLOYMENT TEST
