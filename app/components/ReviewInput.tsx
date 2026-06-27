@@ -25,7 +25,7 @@ export default function ReviewInput({
                     }}
                     
                     className="w-full h-48 p-6 text-2xl rounded-2xl text-(--slate) outline-none"
-                    placeholder="Talk about your experience.."
+                    placeholder="Mention the role and talk about your experience.."
                 />
                 <p className={`text-sm text-right pr-6 pb-4 ${text.length >= 750 ? 'text-red-500' : 'text-(--earth)'}`}>{text.length}/750</p>
             </div>
