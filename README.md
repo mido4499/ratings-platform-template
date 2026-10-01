@@ -31,43 +31,29 @@ database, new pages and features, and a full example of turning this into a movi
 You need [Node.js 20+](https://nodejs.org) and a PostgreSQL database. The easiest option is a free
 database from [Neon](https://neon.tech): create a project and copy its connection string.
 
-```bash
-# 1. Install the dependencies (this also generates the Prisma database client)
-npm install
+## 2. Deploy it
 
-# 2. Create your environment file, then open .env and fill in the values
-cp .env.example .env
+[![Deploy with Vercel](https://vercel.com/button)](your-deploy-link)
 
-# 3. Create the database tables
-npm run db:migrate
+Click the button, connect a free Neon database, and fill in the
+environment variables from `.env.example`. Your site will be live
+in a few minutes.
 
-# 4. Start the app
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 3. Make it your own
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Edit `[your config file]` to change the site name, colors, and
+what people are rating. See the [Customization Guide](CUSTOMIZATION.md)
+for a full walkthrough, including turning this into a movie rating site.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Ideas for what to build
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Restaurant reviews · Landlord ratings · Course reviews ·
+Bootcamp reviews · App reviews · Local service providers
 
-## Learn More
+## Contributing
 
-To learn more about Next.js, take a look at the following resources:
+Issues and pull requests are welcome!
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## License
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT
