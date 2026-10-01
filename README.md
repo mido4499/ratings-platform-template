@@ -20,6 +20,10 @@ Tailwind CSS 4 · [Prisma](https://www.prisma.io/docs) + PostgreSQL ·
 [Auth.js / NextAuth](https://authjs.dev) · [Resend](https://resend.com) (emails) ·
 [Anthropic Claude](https://docs.anthropic.com) (moderation)
 
+📘 **Want to build your own rating site from this template?** Read the step-by-step
+**[Customization Guide](CUSTOMIZATION.md)**. It covers branding, colors, rating categories, the
+database, new pages and features, and a full example of turning this into a movie rating site.
+
 ---
 
 ## 1. Run it on your computer
