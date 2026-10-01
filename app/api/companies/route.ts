@@ -3,6 +3,8 @@ import {prisma} from "@/src/lib/db";
 import { auth } from '@/auth';
 import { NextRequest, NextResponse } from 'next/server';
 import { sendAdminNotification } from "@/src/lib/email";
+import { averageScore } from "@/src/lib/ratings";
+import { siteConfig } from "@/src/config/site";
 
 export async function GET(
     request: NextRequest
@@ -24,23 +26,10 @@ export async function GET(
         },
     });
 
-    const companiesWithRatings = companies.map((company) => {
-        const total = company.reviews.reduce(
-            (sum, review) => sum + review.score,
-            0
-        );
-
-        const average = 
-            company.reviews.length > 0
-            ?
-            Math.round(total/company.reviews.length *2)/2
-            :0;
-        
-        return {
-            ...company,
-            averageRating: average,
-        };
-    });
+    const companiesWithRatings = companies.map((company) => ({
+        ...company,
+        averageRating: averageScore(company.reviews),
+    }));
 
     return Response.json(companiesWithRatings);
 }
@@ -55,9 +44,14 @@ export async function POST(
     }
     
     const body = await request.json();
-    const name = body.name;
+    const name = typeof body.name === 'string' ? body.name.trim() : '';
 
-    const slug = name.toLowerCase().replace(/[^a-z0-9\s-]/g, "").replace(/\s+/g, "-").trim();
+    // "Acme Corp!" -> "acme-corp". The slug is used in the URL: /companies/acme-corp
+    const slug = name.toLowerCase().replace(/[^a-z0-9\s-]/g, "").replace(/\s+/g, "-").replace(/^-+|-+$/g, "");
+
+    if (!slug) {
+        return NextResponse.json({error: 'Please enter a name containing letters or numbers.'}, {status: 400});
+    }
 
     const alreadyExists = await prisma.company.findUnique({
         where: {
@@ -66,12 +60,12 @@ export async function POST(
     })
 
     if (alreadyExists) {
-        return Response.json({error: 'This company already exists',}, {status: 409});
+        return Response.json({error: `This ${siteConfig.item.singular.toLowerCase()} already exists`}, {status: 409});
     }
 
     const company = await prisma.company.create({
         data: {
-            name: body.name,
+            name,
             slug: slug,
             description: body.description,
             userId: session.user.id,
@@ -79,7 +73,8 @@ export async function POST(
         },
     });
 
-    sendAdminNotification(company.name, session.user.name ?? "Unknown");
+    // If the email fails, the company is still saved — just log the problem.
+    await sendAdminNotification(company.name, session.user.name ?? session.user.email ?? "Unknown").catch(console.error);
 
     return Response.json(company);
 }

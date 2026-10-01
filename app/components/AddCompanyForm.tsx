@@ -1,6 +1,9 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { siteConfig } from "@/src/config/site";
+
+const item = siteConfig.item.singular.toLowerCase();
 
 export default function AddCompanyForm(){
     const [name, setName] = useState("");
@@ -39,7 +42,7 @@ export default function AddCompanyForm(){
 
     return(
         <div className="flex flex-col gap-8 w-4/5">
-            <h1 className="text-4xl">Name of the company:</h1>
+            <h1 className="text-4xl">Name of the {item}:</h1>
             <div className="flex h-15 gap-2 w-1/2">
                 <span className="w-2 bg-(--slate)"></span>
                 <input
@@ -53,7 +56,7 @@ export default function AddCompanyForm(){
                 </input>
             </div>
             
-            <h1 className="text-4xl mt-3">Describe the company:</h1>
+            <h1 className="text-4xl mt-3">Describe the {item}:</h1>
             <div className="flex w-full gap-2 pt-2 pb-2 pl-2 pr-2">
                 <span className="w-2 bg-(--slate)"></span>
                 <textarea
@@ -71,7 +74,7 @@ export default function AddCompanyForm(){
                 onClick={handleSubmit}
                 className="bg-(--slate) text-(--stone) text-2xl rounded-2xl w-fit h-20 p-6 ml-auto cursor-pointer"
             >
-                Add company
+                Add {item}
             </button>
             {error && <p className="text-red-500 text-sm">{error}</p>}
             

@@ -3,8 +3,9 @@ import { prisma } from '@/src/lib/db';
 import Link from 'next/link';
 import CompaniesList from '@/app/components/CompaniesList';
 import { Company } from "@prisma/client";
+import { siteConfig } from '@/src/config/site';
 
-export const metadata = {title: 'My Companies - Sisyphus Apply'}
+export const metadata = {title: `My ${siteConfig.item.plural}`}
 
 export default async function MyCompaniesPage(){
     const session = await auth();
@@ -18,9 +19,9 @@ export default async function MyCompaniesPage(){
 
     return (
         <div className='flex flex-col m-6 min-h-screen gap-6'>
-            <h1 className='text-(--slate) text-2xl mb-4 font-semibold'>My Companies</h1>
+            <h1 className='text-(--slate) text-2xl mb-4 font-semibold'>My {siteConfig.item.plural}</h1>
             <CompaniesList companies={companies}/>
-            <Link href={`/companies/add-company`} className='text-(--slate) text-2xl rounded-2xl bg-(--sand) p-4 w-fit'>Add Company</Link>
+            <Link href={`/companies/add-company`} className='text-(--slate) text-2xl rounded-2xl bg-(--sand) p-4 w-fit'>Add {siteConfig.item.singular}</Link>
         </div>
     )
 }

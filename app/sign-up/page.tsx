@@ -1,8 +1,9 @@
 import SignUpForm from "../components/SignUpForm";
+import { siteConfig } from "@/src/config/site";
 
 export const metadata = {
-    title: 'Sisyphus Apply - Sign up',
-    description: 'Sign up to review job application experience.'
+    title: 'Sign up',
+    description: `Create a ${siteConfig.name} account to rate and review.`
 }
 
 export default function SignupPage(){

@@ -4,6 +4,7 @@ import { auth } from '@/auth';
 import { NextResponse } from "next/server";
 import * as BadWords from 'bad-words';
 import isInappropriate from "@/src/lib/moderation";
+import { isValidScore } from "@/src/lib/ratings";
 
 export async function GET(
     request: Request,
@@ -20,9 +21,7 @@ export async function GET(
 
     if (!company)
     {
-        return new Response("Company not found", {
-            status: 404,
-        });
+        return NextResponse.json({error: 'Not found'}, {status: 404});
     }
 
     const companyId = company.id;
@@ -53,7 +52,6 @@ export async function POST(
 
     try{
         const { slug } = await params;
-        console.log(slug);
 
         const company = await prisma.company.findUnique({
             where: {
@@ -63,16 +61,14 @@ export async function POST(
 
         if (!company)
         {
-            return new Response("Company not found", {
-                status: 404,
-            });
+            return NextResponse.json({error: 'Not found'}, {status: 404});
         }
 
-        if (body.score == 0) {
+        if (!isValidScore(body.score)) {
             return NextResponse.json({error: 'Please add a minimum of a one-star rating.'}, {status: 400});
         }
 
-        if (body.text.length == 0) {
+        if (typeof body.text !== 'string' || body.text.trim().length == 0) {
             return NextResponse.json({error: 'Please add a review describing your experience.'}, {status: 400});
         }
 
@@ -89,21 +85,28 @@ export async function POST(
 
         const companyId = company.id;
 
+        // Each user can review a company only once (see @@unique in prisma/schema.prisma).
+        const existing = await prisma.review.findUnique({
+            where: { userId_companyId: { userId, companyId } },
+        });
+        if (existing) {
+            return NextResponse.json({error: 'You have already reviewed this. Edit your existing review instead.'}, {status: 409});
+        }
+
         const review = await prisma.review.create({
             data: {
                 score: body.score,
                 text: body.text,
                 companyId: companyId,
-                userId: userId,   // MODIFY THIS AFTER ADDING AUTHENTICATION (done)
+                userId: userId,
             }
         })
 
         return Response.json(review);
     }
-    catch{
-        return new Response("Error", {
-            status: 500,
-        });
+    catch (error) {
+        console.error(error);
+        return NextResponse.json({error: 'Something went wrong. Please try again.'}, {status: 500});
     }
 
     

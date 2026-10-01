@@ -4,9 +4,10 @@ import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import UserMenu from "./UserMenu";
 import Image from "next/image";
+import { siteConfig } from "@/src/config/site";
 
 export default function Navbar(){
-    const { data: session, status} = useSession();
+    const { data: session } = useSession();
     const loggedInNameOrEmail = session?.user?.name ?? session?.user?.email;
     const pathname = usePathname();
     const isDashboard = pathname.startsWith('/dashboard') || pathname === '/admin';
@@ -21,10 +22,10 @@ export default function Navbar(){
             {isDashboard ? (
                 <Link className="hidden md:block fixed top-0 right-0" href='/'> {/**Return only the photo at the far right of the navbar if dashboard. */}
                     <Image
-                        src='/og-image.png'
+                        src={siteConfig.images.navLogo}
                         width={100}
                         height={100}
-                        alt='logo'
+                        alt={`${siteConfig.name} home`}
                     />
                 </Link>
             ):(
@@ -32,10 +33,10 @@ export default function Navbar(){
                     {pathname!=='/' && (
                         <Link href="/" className={'font-semibold text-lg hidden md:block'}>
                             <Image
-                                src={'/og-image.png'}
+                                src={siteConfig.images.navLogo}
                                 width={100}
                                 height={100}
-                                alt="Home"
+                                alt={`${siteConfig.name} home`}
                             />
                         </Link>
                     )}

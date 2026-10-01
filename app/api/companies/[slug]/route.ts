@@ -2,6 +2,8 @@
 import {prisma} from "@/src/lib/db";
 import { NextResponse } from "next/server";
 import { auth } from '@/auth';
+import { isAdmin } from "@/src/lib/auth";
+import { averageScore } from "@/src/lib/ratings";
 
 export async function GET(
     request: Request,
@@ -14,39 +16,21 @@ export async function GET(
         where: {
             slug,
         },
+        // Never send whole user records to the browser — they contain emails and password hashes.
         include: {
-            reviews: {
-                include: {
-                    user: true,
-                }
-            }
+            reviews: true,
         }
     });
 
     if (!company)
     {
-        return new Response("Company not found", {
-            status: 404,
-        });
+        return NextResponse.json({error: 'Not found'}, {status: 404});
     }
 
-    const total = company.reviews.reduce(
-            (sum, review) => sum + review.score,
-            0
-        );
-
-    const average = 
-        company.reviews.length > 0
-        ?
-        Math.round(total/company.reviews.length *2)/2
-        :0;
-    
     return Response.json({
         ...company,
-        averageRating: average.toFixed(1),
+        averageRating: averageScore(company.reviews).toFixed(1),
     });
-
-
 }
 
 export async function PUT(
@@ -60,42 +44,35 @@ export async function PUT(
     }
 
     const { slug } = await params;
-
-    
     const body = await request.json();
-    try{
-        const company = await prisma.company.findUnique({
-            where: {
-                slug,
-            },
-        });
-    
-        if (!company)
-        {
-            return new Response("Company not found", {
-                status: 404,
-            });
-        }
 
-        const companyId = company.id;
-        const updatedCompany = await prisma.company.update({
-            where: {
-                id: companyId,
-            },
-            data: {
-                name: body.name,
-                description: body.description,
-            },
-        });
+    const company = await prisma.company.findUnique({
+        where: {
+            slug,
+        },
+    });
 
-        return Response.json(updatedCompany);
+    if (!company)
+    {
+        return NextResponse.json({error: 'Not found'}, {status: 404});
     }
-    catch{
-        return new Response("Company not found", {
-            status: 404,
-        })
+
+    // Only the person who added the company, or the admin, may change it.
+    if (company.userId !== session.user.id && !isAdmin(session.user.email)) {
+        return NextResponse.json({error: 'Forbidden'}, {status: 403});
     }
-    
+
+    const updatedCompany = await prisma.company.update({
+        where: {
+            id: company.id,
+        },
+        data: {
+            name: body.name,
+            description: body.description,
+        },
+    });
+
+    return Response.json(updatedCompany);
 }
 
 export async function DELETE(
@@ -107,36 +84,31 @@ export async function DELETE(
     if (!session){
         return NextResponse.json({error: 'Unauthorized'}, {status: 401});
     }
-    
+
     const { slug } = await params;
 
-    try {
-        const company = await prisma.company.findUnique({
-            where: {
-                slug,
-            },
-        });
-    
-        if (!company)
-        {
-            return new Response("Company not found", {
-                status: 404,
-            });
-        }
+    const company = await prisma.company.findUnique({
+        where: {
+            slug,
+        },
+    });
 
-        const companyId = company.id;
-        await prisma.company.delete({
-            where: {
-                id: companyId,
-            }
-        })
-        return new Response(null, {
-            status: 204,
-        });
-    }  
-    catch {
-        return new Response("Company not found", {
-            status: 404,
-        })
+    if (!company)
+    {
+        return NextResponse.json({error: 'Not found'}, {status: 404});
     }
+
+    // Only the person who added the company, or the admin, may delete it.
+    if (company.userId !== session.user.id && !isAdmin(session.user.email)) {
+        return NextResponse.json({error: 'Forbidden'}, {status: 403});
+    }
+
+    await prisma.company.delete({
+        where: {
+            id: company.id,
+        }
+    })
+    return new Response(null, {
+        status: 204,
+    });
 }

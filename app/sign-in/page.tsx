@@ -1,8 +1,9 @@
 import SignInForm from "../components/SignInForm";
+import { siteConfig } from "@/src/config/site";
 
 export const metadata = {
-    title: 'Sisyphus Apply - Sign in',
-    description: 'Sign in to review job application experience.'
+    title: 'Sign in',
+    description: `Sign in to ${siteConfig.name} to rate and review.`
 }
 
 export default function SigninPage(){

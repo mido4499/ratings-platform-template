@@ -1,6 +1,7 @@
 import { prisma } from "@/src/lib/db";
 import EditReviewForm from "@/app/components/EditReviewForm";
 import { notFound } from "next/navigation";
+import { auth } from "@/auth";
 
 export async function generateMetadata({ params }: { params: Promise<{reviewid: string}>}) {
     const { reviewid } = await params;
@@ -13,8 +14,8 @@ export async function generateMetadata({ params }: { params: Promise<{reviewid: 
     });
 
     return {
-        title: `Be Honest! Edit Review for ${review?.company}`,
-        description: `Honestly Editing the rating and review you added for ${review?.company}.`
+        title: `Edit your review for ${review?.company.name}`,
+        description: `Edit the rating and review you added for ${review?.company.name}.`
     }
 }
 
@@ -33,7 +34,9 @@ export default async function EditReview({
     });
 
 
-    if (!review) notFound();
+    // Only the person who wrote the review may edit it.
+    const session = await auth();
+    if (!review || review.userId !== session?.user?.id) notFound();
 
     return(
         <main className="w-full min-h-screen">

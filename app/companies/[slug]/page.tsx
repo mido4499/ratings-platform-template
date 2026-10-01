@@ -6,14 +6,17 @@ import Link from "next/link";
 import { auth } from "@/auth";
 import { prisma } from "@/src/lib/db";
 import { notFound, redirect } from "next/navigation";
+import { isAdmin } from "@/src/lib/auth";
+import { averageScore } from "@/src/lib/ratings";
+import { siteConfig } from "@/src/config/site";
 
 export async function generateMetadata({params}: {params: Promise<{slug: string}>}) {
     const { slug } = await params;
     const company = await prisma.company.findUnique({ where: { slug }} )
 
     return {
-        title: `See reviews for ${company?.name} job applications - Sisyphus Apply`,
-        description: `Read honest reviews from real applicants for jobs in ${company?.name}`,
+        title: `${company?.name} reviews`,
+        description: `Read honest ratings and reviews of ${company?.name} on ${siteConfig.name}.`,
     }
 }
 
@@ -39,22 +42,12 @@ export default async function companyPage({
 
     if (!company) notFound();
 
-    const total = company.reviews.reduce(
-        (sum, review) => sum + review.score,
-        0
-    );
-
-    const average = company.reviews.length > 0
-    ?
-    Math.round(total/company.reviews.length *2)/2
-    :0;
-
-    const averageRating = average.toFixed(1);
+    const averageRating = averageScore(company.reviews).toFixed(1);
 
     const session = await auth();
     
     if (company.status !== 'approved') {
-        if ((session?.user?.id !== company?.userId) && (session?.user?.email !== process.env.ADMIN_EMAIL)) {
+        if ((session?.user?.id !== company.userId) && !isAdmin(session?.user?.email)) {
             redirect('/companies');
         }
     }
@@ -84,7 +77,7 @@ export default async function companyPage({
                         <span className=" cursor-default text-sm border border-black rounded-full w-4 h-4 flex items-center justify-center">
                             i
                         </span>
-                        <p className=" text-sm">Your added company is pending approval. Only you can see it.</p>
+                        <p className=" text-sm">Your added {siteConfig.item.singular.toLowerCase()} is pending approval. Only you can see it.</p>
                     </div>
                     
                 </div>)}

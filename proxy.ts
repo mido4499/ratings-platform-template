@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { prisma } from "./src/lib/db";
+import { isAdmin } from "./src/lib/auth";
+
+// Runs before every request (Next.js "proxy", formerly called "middleware").
+// Sends signed-out users to /sign-in for pages that need an account, and hides
+// rejected companies from everyone except the admin.
 
 export default async function proxy(req: NextRequest){
     const session = await auth();
@@ -29,7 +34,7 @@ export default async function proxy(req: NextRequest){
 
             const slugs = rejected.map(company=>company.slug);
 
-            if (slugs.includes(slug) && session?.user?.email !== process.env.ADMIN_EMAIL) return NextResponse.redirect(new URL('/companies', req.url));
+            if (slugs.includes(slug) && !isAdmin(session?.user?.email)) return NextResponse.redirect(new URL('/companies', req.url));
         }
     }
 

@@ -3,6 +3,7 @@ import { Lato } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import { SessionProvider } from "next-auth/react";
+import { siteConfig } from "@/src/config/site";
 
 
 const lato = Lato({
@@ -11,18 +12,22 @@ const lato = Lato({
   weight: ["400", "700"],
 });
 
-export const metadata = {
-  title: 'Sisyphus Apply - Job Applications Reviews',
-  description: `Speak up to unjustified rejection emails! Rate and review your job application
-  experience.`,
+export const metadata: Metadata = {
+  // Relative URLs in metadata (like the image below) are resolved against this.
+  metadataBase: new URL(siteConfig.url),
+  title: {
+    default: `${siteConfig.name} - ${siteConfig.tagline}`,
+    // Pages only set their own title, e.g. 'Sign in' -> 'Sign in - Sisyphus Apply'
+    template: `%s - ${siteConfig.name}`,
+  },
+  description: siteConfig.description,
   openGraph: {
-    title: 'Sisyphus Apply',
-    description: `Speak up to unjustified rejection emails! Rate and review your job application
-    experience..`,
-    url: 'https://sisyphusapply.com',
+    title: siteConfig.name,
+    description: siteConfig.description,
+    url: '/',
     images: [
       {
-        url: 'https://sisyphusapply.com/og-image.png',
+        url: siteConfig.images.ogImage,
         width: 1200,
         height: 630,
       }
@@ -51,5 +56,3 @@ export default function RootLayout({
       </html>
   );
 }
-
-// TEST

@@ -31,5 +31,6 @@ export async function PATCH(
         }
     })
 
-    return Response.json(updatedUser);
+    // Only send back safe fields (never the password hash).
+    return Response.json({id: updatedUser.id, name: updatedUser.name, email: updatedUser.email});
 }

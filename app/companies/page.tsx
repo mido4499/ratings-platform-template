@@ -2,6 +2,12 @@
 import Link from "next/link";
 import CompanyCard from "../components/CompanyCard";
 import { prisma } from "@/src/lib/db";
+import { averageScore } from "@/src/lib/ratings";
+import { siteConfig } from "@/src/config/site";
+
+export const metadata = {
+    title: siteConfig.item.plural,
+}
 
 
 type Company = {
@@ -25,25 +31,10 @@ async function getCompanies(search?: string) {
         },
     });
 
-    const companiesWithRatings = companies.map((company) => {
-        const total = company.reviews.reduce(
-            (sum, review) => sum + review.score,
-            0
-        );
-
-        const average = 
-            company.reviews.length > 0
-            ?
-            Math.round(total/company.reviews.length *2)/2
-            :0;
-        
-        return {
-            ...company,
-            averageRating: average,
-        };
-    });
-
-    return companiesWithRatings;
+    return companies.map((company) => ({
+        ...company,
+        averageRating: averageScore(company.reviews),
+    }));
 }
 
 export default async function CompaniesPage({
@@ -61,7 +52,7 @@ export default async function CompaniesPage({
             <div className="w-full min-h-screen md:w-[65%] max-w-5xl p-8 flex flex-col mt-0">
 
                 <h1 className= "text-3xl md:text-6xl font-semibold">
-                    Companies
+                    {siteConfig.item.plural}
                 </h1>
 
                 <div className="space-y-8 pt-8">
@@ -81,7 +72,7 @@ export default async function CompaniesPage({
 
                 <div className="text-center mt-auto text-2xl text-(--slate)">
                     Can&apos;t find what you&apos;re looking for?
-                    <Link href={'/companies/add-company'} className="font-bold"> Add your own company </Link>
+                    <Link href={'/companies/add-company'} className="font-bold"> Add your own {siteConfig.item.singular.toLowerCase()} </Link>
                 </div>
                 
             </div>

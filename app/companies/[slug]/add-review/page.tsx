@@ -8,8 +8,8 @@ export async function generateMetadata({params}: {params: Promise<{slug: string}
     const company = await prisma.company.findUnique({ where: { slug }} );
 
     return {
-        title: `Be honest! Add a review for ${company?.name} - Sisyphus Apply`,
-        description: `Honestly adding a rating and review for the job application experience for ${company?.name}.`
+        title: `Add a review for ${company?.name}`,
+        description: `Share your honest rating and review of ${company?.name}.`
     }
 }
 
@@ -23,13 +23,6 @@ export default async function AddReview({
         where: {
             slug,
         },
-        include: {
-            reviews: {
-                include: {
-                    user: true,
-                }
-            }
-        }
     });
 
     if (!company) notFound();

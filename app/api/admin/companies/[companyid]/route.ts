@@ -2,6 +2,7 @@ import { auth } from "@/auth"
 import { NextResponse } from "next/server";
 import { prisma } from "@/src/lib/db";
 import { sendApprovalEmail, sendRejectionEmail } from "@/src/lib/email";
+import { isAdmin } from "@/src/lib/auth";
 
 export async function PATCH(
     request: Request,
@@ -10,7 +11,7 @@ export async function PATCH(
     const session = await auth();
     const {companyid} = await params;
 
-    if (session?.user?.email !== process.env.ADMIN_EMAIL) {
+    if (!isAdmin(session?.user?.email)) {
         return NextResponse.json({error: "Forbidden"}, {status: 403});
     }
 

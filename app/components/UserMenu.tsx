@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
+import { siteConfig } from "@/src/config/site";
 
 type Props={
     name: string;
@@ -48,7 +49,7 @@ export default function UserMenu({name}: Props){
                 onClick={()=>{setOpen(false); close()}}
                 className="px-4 py-2 hover:bg-(--clay) text-sm"
             >
-                My Companies
+                My {siteConfig.item.plural}
             </Link>
             <Link
                 href={'/dashboard/account-settings'}
@@ -131,10 +132,10 @@ export default function UserMenu({name}: Props){
                             <span className="font-medium">
                                 <Link href="/" className={"font-semibold text-lg"} onClick={()=>{close()}}>
                                     <Image
-                                        src={'/og-image.png'}
+                                        src={siteConfig.images.navLogo}
                                         width={100}
                                         height={100}
-                                        alt="Home"
+                                        alt={`${siteConfig.name} home`}
                                     />
                                 </Link>
                                 {name}

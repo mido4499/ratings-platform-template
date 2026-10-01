@@ -2,7 +2,7 @@ import { auth } from "@/auth";
 import {prisma} from "@/src/lib/db";
 import ReviewsListWithCompany from "@/app/components/ReviewsListWithCompany";
 
-export const metadata = {title: 'My Reviews - Sisyphus Apply'}
+export const metadata = {title: 'My Reviews'}
 
 export default async function MyReviewsPage(){
     const session = await auth();

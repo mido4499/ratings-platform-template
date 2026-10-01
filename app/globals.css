@@ -25,6 +25,8 @@ body {
   font-family: var(--font-lato), sans-serif;
 }
 
+/* Color palette used across the whole app (e.g. className="bg-(--sand)").
+   Change these six values to re-theme your platform. */
 :root {
   --stone:      #F5F0E8;  /* light beige — backgrounds */
   --sand:       #E8D5B7;  /* warm sand — cards, surfaces */

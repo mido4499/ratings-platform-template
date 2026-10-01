@@ -2,6 +2,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Prisma } from "@prisma/client";
+import { siteConfig } from "@/src/config/site";
 
 type CompanyWithUser = Prisma.CompanyGetPayload<{include: {user: true}}>;
 
@@ -11,6 +12,7 @@ type Props= {
 export default function AdminCompanyList({companies}: Props) {
     const [loading, setLoading] = useState<string|null>(null);
     const [searchCompany, setSearchCompany] = useState("");
+    const [removeMessage, setRemoveMessage] = useState("");
     const router = useRouter();
 
     async function handleDecision(companyid: string, decision: 'approved' | 'rejected') {
@@ -28,14 +30,20 @@ export default function AdminCompanyList({companies}: Props) {
         router.refresh();
     }
 
+    // Hides an approved company from the site by marking it as rejected.
     async function removeCompany(slug: string) {
+        setRemoveMessage("");
         const res = await fetch(
-            `/api/companies/${slug}`,
+            `/api/companies/${encodeURIComponent(slug.trim())}`,
             {
                 method: 'GET',
                 headers: {'Content-Type': 'application/json'},
             }
         )
+        if (!res.ok) {
+            setRemoveMessage(`No ${siteConfig.item.singular.toLowerCase()} found with the slug "${slug}".`);
+            return;
+        }
         const company = await res.json();
         await fetch(
             `/api/admin/companies/${company.id}`,
@@ -45,6 +53,9 @@ export default function AdminCompanyList({companies}: Props) {
                 body: JSON.stringify({status: 'rejected'}),
             }
         )
+        setRemoveMessage(`Removed ${company.name}.`);
+        setSearchCompany("");
+        router.refresh();
     }
 
     return (
@@ -52,13 +63,14 @@ export default function AdminCompanyList({companies}: Props) {
             <div className="w-full flex">
                 <input
                     type="text"
-                    placeholder="search for a company"
+                    placeholder={`${siteConfig.item.singular} slug to remove (e.g. acme-corp)`}
                     className="rounded bg-white w-1/2"
                     value={searchCompany}
                     onChange={e=>setSearchCompany(e.target.value)}
                 />
                 <button className="w-1/2" onClick={()=>removeCompany(searchCompany)}>Remove</button>
             </div>
+            {removeMessage && <p className="text-sm">{removeMessage}</p>}
             <h1 className="text-3xl text-(--slate)">Pending Requests</h1>
             <div className="flex flex-col gap-2">
                 {companies.map((company)=>(

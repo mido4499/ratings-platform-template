@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSyncExternalStore } from "react";
+import { siteConfig } from "@/src/config/site";
 
 function subscribe(){return()=>{}}
 export default function DashboardSidebar(){
@@ -10,7 +11,7 @@ export default function DashboardSidebar(){
 
     const links = [
         {href: '/dashboard/reviews', label: 'My Reviews'},
-        {href: '/dashboard/companies', label: 'My Companies'},
+        {href: '/dashboard/companies', label: `My ${siteConfig.item.plural}`},
         {href: '/dashboard/account-settings', label: 'My Account'}
     ]
 
