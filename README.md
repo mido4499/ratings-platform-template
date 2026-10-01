@@ -33,7 +33,7 @@ database from [Neon](https://neon.tech): create a project and copy its connectio
 
 ## 2. Deploy it
 
-[![Deploy with Vercel](https://vercel.com/button)](your-deploy-link)
+[![Deploy with Vercel](https://vercel.com/button)]((https://vercel.com/new/clone?repository-url=https://github.com/mido4499/ratings-platform-template))
 
 Click the button, connect a free Neon database, and fill in the
 environment variables from `.env.example`. Your site will be live
