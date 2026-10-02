@@ -24,6 +24,10 @@ Tailwind CSS 4 · [Prisma](https://www.prisma.io/docs) + PostgreSQL ·
 **[Customization Guide](CUSTOMIZATION.md)**. It covers branding, colors, rating categories, the
 database, new pages and features, and a full example of turning this into a movie rating site.
 
+🤖**But what if I just use AI?**
+Great Idea! That's exactly what I had in mind while building the application. That's why AGENTS.md and CLAUDE.md files are there: to help you work with AI on the project.
+However, if you want to work on your coding skills as a beginner before working with AI, the project is all yours!
+
 ---
 
 ## 1. Run it on your computer
